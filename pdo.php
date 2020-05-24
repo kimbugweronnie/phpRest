@@ -90,7 +90,7 @@ $stmt->execute(['title'=>$title,'body'=>$body,'author'=>$author]);
 echo 'Post has been added';
 
 //updating  data
-$id=1;
+$id=2;
 $title='DAnte';
 $body='The treasure of Rome';
 $author="ronnie";

@@ -1,1 +1,1 @@
-Simple  get and post requests with curl
+Simple  get  post and update requests with curl

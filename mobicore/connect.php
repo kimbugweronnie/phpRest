@@ -15,6 +15,7 @@ try {
     }
     $message="";
     $length="";
+    $saved="";
 if($_SERVER['REQUEST_METHOD']=='POST'){
 
   $groupId=12;
@@ -43,31 +44,36 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             $response=$soapClient->loadByUsername($params);
             extract((array)$response);
 
-          //var_dump( $resp);
+
 
           if( $username==filter_input(INPUT_POST, 'username')){
               $message= "the username is already taken";
           }
           else{
-              try{
+               try{
 
-                 $input=array(
+                $param=array(
                 'groupId'=>$groupId,
                 'username' => $username,
                 'name'=>$name,
                 'email'=>$email,
                 'loginPassword'=>$password,
                 'pin'=>$pin
-              );
-               $resp=$soapClient->registerMember($input);
-               var_dump($resp);
+                );
+                $resp=$soapClient->registerMember($param);
+                extract((array)$resp);
+
+
+
+
 
                }catch(Exception $e){
                     echo $e->getMessage();
                  }
 
-              $sql= "INSERT INTO person (username,name,email,Password,pin,groupId) VALUES
-              (:username,:name,:email,:password,:pin,:groupId)";
+              $sql= "INSERT INTO person
+              (username,name,email,Password,pin,groupId,awaitingEmailValidation,Userid) VALUES
+              (:username,:name,:email,:password,:pin,:groupId,:awaitingEmailValidation,:Id)";
               $stmt=$pdo->prepare($sql);
               $stmt->execute([
                 'username'=>$username,
@@ -75,11 +81,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 'email'=>$email,
                 'password'=>$password,
                 'pin'=>$pin,
-                'groupId'=>$groupId
+                'groupId'=>$groupId,
+                'awaitingEmailValidation'=>$awaitingEmailValidation,
+                'Id'=>$id
               ]
             );
 
-            echo "saved";
+            $saved="data saved";
 
           }
 
@@ -115,6 +123,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
          <input  name="Add" type="submit" type="submit"  />
          <?php echo $message ?>
          <?php echo $length ?>
+         <?php echo $saved ?>
 
        </form>
 

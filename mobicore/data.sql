@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 31, 2020 at 09:18 PM
+-- Generation Time: Jun 01, 2020 at 12:00 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.27
 
@@ -35,7 +35,9 @@ CREATE TABLE `person` (
   `email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
   `pin` varchar(50) NOT NULL,
-  `groupId` varchar(50) NOT NULL
+  `groupId` varchar(50) NOT NULL,
+  `awaitingEmailValidation` tinyint(1) DEFAULT NULL,
+  `UserId` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

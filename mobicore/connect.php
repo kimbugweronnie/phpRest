@@ -77,20 +77,15 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
                     }
                   }
-                  while(list($key,$value)=each($val)){
+                  while(list($key,$value1)=each($val)){
                     if($key=="Id"){
-                      $id=$value;
+                      $id=$value1;
 
                     }
                   }
 
 
                 }
-
-
-
-
-
 
 
                }catch(Exception $e){

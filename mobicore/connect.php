@@ -42,26 +42,52 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
             );
             $response=$soapClient->loadByUsername($params);
-            extract((array)$response);
+          //  $response is not string
+
+            $resp=json_decode(json_encode($response),true);
+
+            foreach($resp as $key => $val) {
+
+               foreach ($val as $record => $value) {
+
+               }
+
+            }
 
 
-
-          if( $username==filter_input(INPUT_POST, 'username')){
+          if( $value){
               $message= "the username is already taken";
           }
           else{
                try{
 
-                $param=array(
+                $param=array([
                 'groupId'=>$groupId,
                 'username' => $username,
                 'name'=>$name,
                 'email'=>$email,
                 'loginPassword'=>$password,
                 'pin'=>$pin
-                );
-                $resp=$soapClient->registerMember($param);
-                extract((array)$resp);
+                ]);
+                $res=$soapClient->registerMember($param);
+                foreach($res as $key => $val) {
+                  while(list($key,$value)=each($val)){
+                    if($key=="awaitingEmailValidation"){
+                      $awaitingEmailValidation=$value;
+
+                    }
+                  }
+                  while(list($key,$value)=each($val)){
+                    if($key=="Id"){
+                      $id=$value;
+
+                    }
+                  }
+
+
+                }
+
+
 
 
 
@@ -120,7 +146,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
          Password: <input name="password" type="password"  required/><br />
            <br/>
          PIN: <input name="pin"  type="text"  required/><br /><br/>
-         <input  name="Add" type="submit" type="submit"  />
+         <input  name="Add" type="submit" type="submit"  /><br/>
          <?php echo $message ?>
          <?php echo $length ?>
          <?php echo $saved ?>

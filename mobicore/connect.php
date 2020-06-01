@@ -29,11 +29,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
   $pinlength=strlen($pin);
   $passwordlength=strlen($password);
   $usernamelength=strlen($username);
-
+ 
+  //validation of length
   if($pinlength<=4 or $passwordlength<=4  or $usernamelength<=4){
     $length="credentials are to short";
     }else{
-
+//checking if username exists
         try {
             $soapClient= new SoapClient("http://test.mcash.ug/mobicore/services/members?wsdl");
             $params=array(
@@ -59,6 +60,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
               $message= "the username is already taken";
           }
           else{
+            //registering users to the database
                try{
 
                 $param=array([
@@ -91,7 +93,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                }catch(Exception $e){
                     echo $e->getMessage();
                  }
-
+//saving data to mysql database
               $sql= "INSERT INTO person
               (username,name,email,Password,pin,groupId,awaitingEmailValidation,Userid) VALUES
               (:username,:name,:email,:password,:pin,:groupId,:awaitingEmailValidation,:Id)";
